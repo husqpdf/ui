@@ -4,7 +4,7 @@
   "private": false,
   "version": "0.0.1",
   "type": "module",
-  "main": "dist/my-components.js",
+  "main": "dist/ui.js",
   "types": "dist/main.d.ts",
   "exports": {
     ".": {
