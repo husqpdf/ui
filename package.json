@@ -2,7 +2,7 @@
   "name": "@husqpdf/ui",
   "description": "This package provides all the components for husqpdf",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "main": "./dist/ui.js",
   "types": "./dist/main.d.ts",
