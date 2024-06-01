@@ -1,1 +1,0 @@
-export { default as MyCustomComponent } from "./my-custom-component.vue"
