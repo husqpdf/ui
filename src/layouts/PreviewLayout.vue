@@ -45,10 +45,10 @@
       </div>
 
       <div v-else class="p-8 drop-shadow-md">
-        <div v-for="(_, index) in pdf.pages.value" :key="index" class="mb-4">
+        <div v-for="(_, index) in pages" :key="index" class="mb-4">
           <VuePDF
               :scale="previewScale"
-              :pdf="pdf.pdf.value"
+              :pdf="pdf"
               :page="index + 1"
               class="!flex justify-center"
           />
@@ -59,44 +59,23 @@
 </template>
 
 <script setup lang="ts">
-import {ref, Ref} from "vue"
-import {usePDF, VuePDF} from "@tato30/vue-pdf";
+import {computed, ref, Ref} from "vue"
 import {Skeleton} from "@/components/ui/skeleton";
 import {Loader2, Minus, Plus} from "lucide-vue-next";
 import DocumentDownload from "@/components/document-download/DocumentDownload.vue";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Button} from "@/components/ui/button";
 import {Mode, useLayoutMode} from "@/composables/useLayoutMode.ts";
-import {useCurrentDocument} from "@/composables/useCurrentDocument.ts";
-import {usePageData} from "@/composables/usePageData.ts";
+import {PDFSrc, usePDF, VuePDF} from "@tato30/vue-pdf";
 
 type PreviewLayoutProps = {
   pending: boolean;
-  pdfData: Uint8Array;
+  base64: string;
 }
 
-defineProps<PreviewLayoutProps>()
-
-const currentDocument = useCurrentDocument()
-const pageData = usePageData()
-
-const genPdf = async () => {
-  const pdfGenUrl = `http://localhost:3000/api/generate/${currentDocument}`
-
-  const response = await fetch(pdfGenUrl, {
-    method: "POST",
-    body: JSON.stringify(pageData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  const arrBuf = await response.arrayBuffer()
-  const uintarr = new Uint8Array(arrBuf)
-  return usePDF(uintarr)
-}
-
-const pdf = await genPdf()
+const props = defineProps<PreviewLayoutProps>()
+const src = computed<PDFSrc>(() => ({ data: atob(props.base64) }))
+const {pages, pdf} = usePDF(src);
 
 const isInPreviewMode: Ref<boolean> = ref(
     useLayoutMode().value == Mode.PREVIEW,
