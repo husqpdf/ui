@@ -1,5 +1,6 @@
 {
-  "name": "my-components",
+  "name": "@husqpdf/ui",
+  "description": "This package provides all the components for husqpdf",
   "private": false,
   "version": "0.0.0",
   "type": "module",
@@ -8,8 +9,8 @@
   "exports": {
     ".": {
       "types": "./dist/main.d.ts",
-      "default": "./dist/my-components.js",
-      "import": "./dist/my-components.js"
+      "default": "./dist/ui.js",
+      "import": "./dist/ui.js"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
