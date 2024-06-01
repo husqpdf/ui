@@ -73,8 +73,9 @@ onMounted(() => {
 });
 
 const selectDocument = (ev: any) => {
-   window.location.pathname = ev.detail.value
-   open.value = false;
+  localStorage.removeItem("__hqpdf_selection")
+  window.location.pathname = ev.detail.value
+  open.value = false;
 };
 </script>
 
