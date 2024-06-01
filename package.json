@@ -6,6 +6,10 @@
   "type": "module",
   "main": "./dist/ui.js",
   "types": "./dist/main.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/husqpdf/ui.git"
+  },
   "exports": {
     ".": {
       "types": "./dist/main.d.ts",
