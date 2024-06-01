@@ -4,8 +4,8 @@
   "private": false,
   "version": "0.0.2",
   "type": "module",
-  "main": "dist/ui.js",
-  "types": "dist/main.d.ts",
+  "main": "./dist/ui.js",
+  "types": "./dist/main.d.ts",
   "exports": {
     ".": {
       "types": "./dist/main.d.ts",
