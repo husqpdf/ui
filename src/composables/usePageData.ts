@@ -1,21 +1,9 @@
-import {ref, watch} from "vue";
-import {parseQuery} from "@/utils/parseQuery";
-import {useRoute} from "vue-router";
+import {useCurrentDocument} from "@/composables/useCurrentDocument.ts";
 
 export function usePageData<T>(): T {
-   const route = useRoute();
-   return parseQuery(route.query) as T;
-}
-
-export function watchPageData<T>() {
-   const route = useRoute();
-   const pageData: T = usePageData();
-   const pageDataRef = ref(pageData);
-
-   watch(
-      () => route.query,
-      () => (pageDataRef.value = usePageData()),
-   );
-
-   return pageDataRef;
+   const document = useCurrentDocument();
+   const key = `__hqpdf_page_state_${document}`
+   const stringValue = localStorage.getItem(key);
+   const value = stringValue ? JSON.parse(stringValue) : undefined;
+   return value as T;
 }

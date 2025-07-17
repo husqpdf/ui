@@ -9,6 +9,7 @@ import AppHeader from "@/components/header/AppHeader.vue";
 import {TooltipProvider} from "@/components/ui/tooltip";
 
 const props = defineProps<{ schema?: SchemaType }>()
+const emit = defineEmits(["onstatechange"])
 const schema = props.schema ?? {} as SchemaType
 const documentName = useCurrentDocument() ?? "unnamed";
 
@@ -23,6 +24,12 @@ provide<EditorSelectionProvider>("__hqpdf_selection", {
     localStorage.setItem("__hqpdf_selection", JSON.stringify(v));
   },
 });
+
+provide<EditorStateChangeProvider>("__hqpdf_state_change", {
+  onEditorStateChange: () => {
+    emit("onstatechange");
+  }
+})
 </script>
 
 <template>

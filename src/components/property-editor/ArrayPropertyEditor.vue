@@ -1,27 +1,30 @@
 <script setup lang="ts">
-import {reactive} from "vue"
-import {usePageData} from "@/composables/usePageData";
 import {editorMapping} from "@/lib/editor-mapping";
-import {ap, pathObj} from "@/lib/utils";
+import {ap} from "@/lib/utils";
 import {Braces, Brackets, CornerDownRight, Plus} from "lucide-vue-next";
 import NestedPropertyButton from "./NestedPropertyButton.vue";
 import PropertyEditorHeader from "./PropertyEditorHeader.vue";
 import {Card} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
+import {usePageState} from "@/composables/usePageState.ts";
 
 type ArrayPropertyEditorProps = {
    selection: EditorSelection<SchemaType>;
 };
 const props = defineProps<ArrayPropertyEditorProps>();
-const pageData: any = usePageData();
-const data: Array<any> = reactive(
-   pathObj(props.selection.path, pageData) ?? [],
-);
 const itemSchema = props.selection.schema.items[0];
 const isNestedArray =
    itemSchema.type === "array" || itemSchema.type === "object";
+const value = usePageState<unknown[]>(props.selection.path, [])
+
 const addItem = () => {
-   data.push(data[0]);
+  if(itemSchema.type === "array") {
+    value.value.push([])
+  } else if(itemSchema.type === "object") {
+    value.value.push({})
+  } else {
+    value.value.push("")
+  }
 };
 </script>
 
@@ -35,7 +38,7 @@ const addItem = () => {
 
       <div v-if="isNestedArray">
          <div
-            v-for="(_, index) in data"
+            v-for="(_, index) in value"
             :key="ap(props.selection.path, index)"
             class="flex items-center gap-2"
          >
@@ -53,7 +56,7 @@ const addItem = () => {
 
       <div v-else>
          <div
-            v-for="(_, index) in data"
+            v-for="(_, index) in value"
             :key="ap(props.selection.path, index)"
             class="flex items-center gap-2 py-2"
          >

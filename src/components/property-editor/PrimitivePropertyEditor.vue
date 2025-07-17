@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import {useBindUrl} from "@/composables/useBindUrl";
 import {TextCursorInput} from "lucide-vue-next";
 import PropertyEditorHeader from "./PropertyEditorHeader.vue";
 import {Input} from "@/components/ui/input";
+import {usePageState} from "@/composables/usePageState.ts";
 
 type PrimitivePropertyEditorProps = {
    selection: EditorSelection<SchemaType>;
 };
+
 const props = defineProps<PrimitivePropertyEditorProps>();
-const { query, updateQueryParam } = useBindUrl(props.selection.path);
+const value = usePageState<string>(props.selection.path, "")
 </script>
 
 <template>
@@ -27,9 +28,8 @@ const { query, updateQueryParam } = useBindUrl(props.selection.path);
       </span>
 
       <Input
-         v-model="query"
+         v-model="value"
          :placeholder="props.selection.name"
-         @input="updateQueryParam"
       />
    </div>
 </template>

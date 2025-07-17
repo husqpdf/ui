@@ -17,3 +17,7 @@ type EditorSelectionProvider = {
     selection: Ref<EditorSelection<SchemaType>>;
     setSelection: (selection: EditorSelection<SchemaType>) => void;
 };
+
+type EditorStateChangeProvider = {
+    onEditorStateChange: () => void
+}
