@@ -23,7 +23,10 @@ export const watchDebounce = <T>(
     }
 
     timeoutId = setTimeout(() => {
-      callback(newValue, oldValue, () => null);
+      console.log('watchDebounce', newValue, oldValue)
+      if(newValue !== oldValue) {
+        callback(newValue, oldValue, () => null);
+      }
     }, delay);
   });
 
